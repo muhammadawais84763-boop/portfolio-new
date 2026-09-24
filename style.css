@@ -177,6 +177,40 @@ button {
   mask-image: linear-gradient(to top, black, transparent 78%);
 }
 
+.particle-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.7;
+}
+
+.ambient-particle {
+  position: absolute;
+  left: var(--particle-x);
+  top: var(--particle-y);
+  width: var(--particle-size);
+  height: var(--particle-size);
+  border-radius: 50%;
+  background: var(--particle-color);
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--particle-color) 55%, transparent);
+  opacity: 0;
+  animation: particle-drift var(--particle-duration) ease-in-out var(--particle-delay) infinite;
+}
+
+@keyframes particle-drift {
+  0%, 100% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.7);
+  }
+  18%, 78% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate3d(var(--particle-drift-x), var(--particle-drift-y), 0) scale(1.25);
+  }
+}
+
 .ambient-line {
   position: absolute;
   width: 70vw;
@@ -2328,6 +2362,10 @@ body.custom-cursor textarea {
   .ambient-background {
     opacity: 0.62;
   }
+
+  .particle-field {
+    opacity: 0.45;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2367,7 +2405,8 @@ body.custom-cursor textarea {
   }
 
   .ambient-gradient,
-  .ambient-line {
+  .ambient-line,
+  .ambient-particle {
     animation: none;
   }
 

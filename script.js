@@ -522,6 +522,30 @@ function initMotionInteractions() {
   }
 }
 
+function initAmbientParticles() {
+  const field = document.querySelector('.particle-field');
+  if (!field) return;
+
+  const colors = ['#66e0a8', '#ff4d4d', '#b6c4ff', '#ffffff'];
+  const fragment = document.createDocumentFragment();
+
+  for (let index = 0; index < 42; index += 1) {
+    const particle = document.createElement('span');
+    particle.className = 'ambient-particle';
+    particle.style.setProperty('--particle-x', `${(index * 47) % 100}%`);
+    particle.style.setProperty('--particle-y', `${(index * 71) % 100}%`);
+    particle.style.setProperty('--particle-size', `${2 + (index % 4)}px`);
+    particle.style.setProperty('--particle-color', colors[index % colors.length]);
+    particle.style.setProperty('--particle-duration', `${11 + (index % 9)}s`);
+    particle.style.setProperty('--particle-delay', `${-(index % 12)}s`);
+    particle.style.setProperty('--particle-drift-x', `${(index % 2 ? 1 : -1) * (14 + (index % 5) * 8)}px`);
+    particle.style.setProperty('--particle-drift-y', `${-20 - (index % 5) * 9}px`);
+    fragment.appendChild(particle);
+  }
+
+  field.appendChild(fragment);
+}
+
 function initEscClosing() {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -546,6 +570,7 @@ window.addEventListener('load', () => {
   initTestimonials();
   initContactForm();
   initBackToTop();
+  initAmbientParticles();
   initMotionInteractions();
   initEscClosing();
 });
