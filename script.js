@@ -128,20 +128,20 @@ const serviceData = {
     title: 'YouTube Video Editing',
     category: 'YouTube Video Editing',
     description: 'Long-form YouTube edits focused on stronger retention, audience engagement, and a professional final presentation.',
-    features: ['Long-form YouTube videos', 'YouTube intros and outros', 'Retention-focused editing', 'Professional captions', 'Sound effects', 'B-roll editing', 'Thumbnail placeholder section', 'YouTube Shorts repurposing']
+    features: ['Long-form YouTube videos', 'YouTube intros and outros', 'Retention-focused editing', 'Professional captions', 'Sound effects', 'B-roll editing', 'Thumbnail planning when included in the agreed scope', 'YouTube Shorts repurposing']
   }
 };
 
 function setHeaderState() {
-  if (window.scrollY > 20) {
+  if (header && window.scrollY > 20) {
     header.classList.add('scrolled');
-  } else {
+  } else if (header) {
     header.classList.remove('scrolled');
   }
 
-  if (window.scrollY > 400) {
+  if (backToTopBtn && window.scrollY > 400) {
     backToTopBtn.classList.add('visible');
-  } else {
+  } else if (backToTopBtn) {
     backToTopBtn.classList.remove('visible');
   }
 }
@@ -160,6 +160,8 @@ function initRevealOnScroll() {
 }
 
 function initNavigation() {
+  if (!navToggle || !navPanel) return;
+
   navToggle.addEventListener('click', () => {
     const isOpen = navPanel.classList.toggle('open');
     navToggle.setAttribute('aria-expanded', String(isOpen));
@@ -262,6 +264,8 @@ function closeModal(modalId) {
 
 function initProjectModal() {
   const modal = document.getElementById('project-modal');
+  if (!modal) return;
+
   const title = document.getElementById('project-modal-title');
   const category = document.getElementById('modal-category');
   const description = document.getElementById('project-description');
@@ -304,6 +308,8 @@ function initProjectModal() {
 
 function initServiceModal() {
   const modal = document.getElementById('service-modal');
+  if (!modal) return;
+
   const title = document.getElementById('service-modal-title');
   const category = document.getElementById('service-category');
   const description = document.getElementById('service-description');
@@ -339,9 +345,12 @@ function initServiceModal() {
 }
 
 function initTestimonials() {
+  if (testimonials.length === 0) return;
+
   let currentIndex = 0;
   const prevButton = document.querySelector('.slider-btn.prev');
   const nextButton = document.querySelector('.slider-btn.next');
+  if (!prevButton || !nextButton) return;
 
   function showTestimonial(index) {
     testimonials.forEach((item, i) => {
@@ -412,20 +421,25 @@ function initContactForm() {
     if (hasError) {
       const firstInvalid = fields.find((field) => field.validationMessage);
       const errorMessage = firstInvalid ? firstInvalid.validationMessage : 'Please complete all required fields.';
-      statusMessage.textContent = errorMessage;
-      statusMessage.classList.remove('success');
-      statusMessage.classList.add('error');
+      if (statusMessage) {
+        statusMessage.textContent = errorMessage;
+        statusMessage.classList.remove('success');
+        statusMessage.classList.add('error');
+      }
       return;
     }
 
-    statusMessage.textContent = 'Your inquiry has been prepared successfully. Connect the form to a real backend to send messages.';
-    statusMessage.classList.remove('error');
-    statusMessage.classList.add('success');
-    form.reset();
+    if (statusMessage) {
+      statusMessage.textContent = 'The required details are filled in, but this demo form does not send or save messages. Please copy your details into an email to muhammadawais84763@gmail.com or send them through WhatsApp.';
+      statusMessage.classList.remove('error');
+      statusMessage.classList.remove('success');
+    }
   });
 }
 
 function initBackToTop() {
+  if (!backToTopBtn) return;
+
   backToTopBtn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
@@ -526,7 +540,7 @@ function initAmbientParticles() {
   const field = document.querySelector('.particle-field');
   if (!field) return;
 
-  const colors = ['#66e0a8', '#ff4d4d', '#b6c4ff', '#ffffff'];
+  const colors = ['var(--primary-green)', 'var(--primary-red)'];
   const fragment = document.createDocumentFragment();
 
   for (let index = 0; index < 42; index += 1) {
